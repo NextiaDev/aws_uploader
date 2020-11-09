@@ -1,17 +1,18 @@
-#AWS UPLOADER
+# AWS UPLOADER
 
 AWS UPLOADER is a file upload library written by [Gerardo Mathus](https://github.com/gemathus) for Ruby on Rails which features file upload to a S3 bucket without using Active Storage.
 
-##Installing Gem
+## Installing Gem
 ```
 gem "aws_uploader"
 ```
 
-##Usage
+## Usage
 Add to your model a string attribute, in this we are going to save the file url.
 You will need your aws access key ID, secret access key, the name of your bucket and region.
 We recomend that you save this values as environment variables.
-###Uploader Declaration
+
+### Uploader Declaration
 ```
 uploader = Nextia::Utils::AWSUploader.new(
         ENV['AWS_ACCESS_KEY_ID'],
@@ -19,12 +20,12 @@ uploader = Nextia::Utils::AWSUploader.new(
         ENV['AWS_S3_BUCKET'],
         ENV['AWS_REGION'])
 ```
-###File Upload
+### File Upload
 ```
 url = uploader.upload(YOUR_FILE,YOUR_DESIRED_PATH)
 ```
 
-###Implementation example
+### Implementation example
 ```
 if params[:file].nil?
     uploader = Nextia::Utils::AWSUploader.new(
@@ -40,5 +41,5 @@ if params[:file].nil?
 end
 ```
 
-##TODO
+## TODO
 - Delete files from bucket.
