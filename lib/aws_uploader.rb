@@ -1,4 +1,5 @@
 require 'aws-sdk-s3'
+require 'thumb_files'
 module Nextia
     module Utils
         class AWSUploader
@@ -13,8 +14,19 @@ module Nextia
                 )
             end
             def upload(file, file_path)
+                file_direction =  File.dirname(file_path) + '/'
+                file_thumbs = Nextia::Utils::ThumbFiles.new(file)
                 new_object = @s3_resource.bucket(@bucket).object(file_path)
-                new_object.upload_file(file, acl:'public-read')                
+                new_object_large_file = @s3_resource.bucket(@bucket).object(file_direction + File.basename(file_thumbs.large_file))
+                new_object_medium_file = @s3_resource.bucket(@bucket).object(file_direction + File.basename(file_thumbs.medium_file))
+                new_object_small_file = @s3_resource.bucket(@bucket).object(file_direction + File.basename(file_thumbs.small_file))
+                
+                
+                new_object.upload_file(file, acl:'public-read')
+                new_object_large_file.upload_file(file_thumbs.large_file, acl:'public-read')
+                new_object_medium_file.upload_file(file_thumbs.medium_file, acl:'public-read')
+                new_object_small_file.upload_file(file_thumbs.small_file, acl:'public-read')
+                                          
                 return new_object.public_url
             end
         end
