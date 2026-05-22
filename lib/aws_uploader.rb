@@ -14,7 +14,7 @@ module Nextia
             end
             def upload(file, file_path)
                 new_object = @s3_resource.bucket(@bucket).object(file_path)
-                new_object.upload_file(file, acl:'public-read')                
+                new_object.upload_file(file, acl: 'public-read', content_disposition: 'inline')                
                 return new_object.public_url
             end
         end
